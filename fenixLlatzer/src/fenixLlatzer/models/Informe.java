@@ -34,6 +34,12 @@ public class Informe {
 		return idInforme;
 	}
 
+
+	public void introdueixResultat(ResultatProva r, String nomProva) {
+		ProvaSugerida ps = provaSugerida.get(nomProva);
+		ps.introdueixResultat(r);
+	}
+
 	
 	
 }

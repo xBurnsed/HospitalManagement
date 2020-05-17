@@ -7,6 +7,7 @@ public class ProvaSugerida {
 	
 	private Informe informe;
 	private ProvaDiagnostica provaDiagnostica;
+	private ResultatProva resultatProva;
 	
 	
 	//PRE: Ja s'ha comprovat al crear el nou ProvaSugerida que no existeix cap igual amb ProvaSugerida.id = <informe, provaDiagnostica>
@@ -15,6 +16,11 @@ public class ProvaSugerida {
 		this.idProvaSugerida = informe.getIdInforme() + provaDiagnostica.getNomProva();
 		this.informe = informe;
 		this.provaDiagnostica = provaDiagnostica;
+		this.resultatProva = null;
+	}
+	
+	public void introdueixResultat(ResultatProva r) {
+		this.resultatProva = r;
 	}
 	
 	

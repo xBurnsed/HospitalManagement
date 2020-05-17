@@ -41,6 +41,18 @@ public class Hospital {
 		return nomHospital;
 	}	
 	
+	public boolean containsFacultatiuById(String idFacultatiu) {
+		return visita.get(idFacultatiu) != null;
+	}
+	
+	public void removeFacultatiuById(String idFactulatiu) {
+		visita.remove(idFactulatiu);
+	}
+	
+	public void addFacultatiu(String idFacultatiu, Facultatiu f) {
+		visita.put(idFacultatiu, f);
+	}
+	
 	//neteja estadistiques i llistes en cas que fos una reinstalació.
 	public void novaInstalacio() {
 		this.nombreExpedientAnual = 0;
@@ -63,22 +75,43 @@ public class Hospital {
 			this.nombrePatracolsTotals++;
 		}
 		else {
-			throw new Exception("No s'ha pogut donar d'alta el nou pacient. Comprova que no existeixi!");
+			throw new Exception("Ja existeix un patracol amb aquest ID!");
 		}
 	}
 	
-	/*
-	public void introdueixResultat(Pacient p, String idInforme, ProvaDiagnostica pd, String resultat) {
-		if(p != null && patracols.containsKey(p.getTSI())) {
-			Patracol pat = patracols.get(p.getTSI());
-			Informe pat.
-			this.nombreExpedientAnual++;
-			this.nombrePatracolsTotals++;
+		
+	public ResultatProva introdueixResultat(boolean b, String TSI, String resultat, String nomProva, String idInforme) {
+		
+		Patracol p1 = this.patracols.get(TSI);
+		ResultatProva r = p1.introdueixResultat(b, resultat, nomProva, idInforme);
+				
+		return r;
+	}
+	
+	public void introdueixResultat(String TSI, String idInforme, ResultatProva r, String nomProva) {
+		Patracol p2 = this.patracols.get(TSI);
+		p2.introdueixResultat(idInforme, r, nomProva);
+		
+		
+	}
+	
+	
+	public void tancar(String idExpedient) throws Exception {
+		if(pertany.containsKey(idExpedient)) {
+			Expedient e = pertany.get(idExpedient);
+			e.tancar();
 		}
 		else {
-			throw new Exception("No s'ha pogut donar d'alta el nou pacient. Comprova que no existeixi!");
+			throw new Exception ("No existeix cap expedient amb aquest ID per a aquest Hospital!");
 		}
-		
-	}*/
-		
+	}
+
+
+	public void iniciAny() {
+		this.nombreExpedientAnual = 0;
+		this.nombrePatracolsAnual = 0;
+	}
+
+
 }
+			

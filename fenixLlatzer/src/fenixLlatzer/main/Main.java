@@ -1,5 +1,7 @@
 package fenixLlatzer.main;
 
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -8,16 +10,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import fenixLlatzer.controller.Controller;
-import javax.swing.JPanel;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.BorderLayout;
-import javax.swing.SwingConstants;
+import fenixLlatzer.utils.MockedData;
 
 public class Main {
 
@@ -43,39 +40,16 @@ public class Main {
 
 	/**
 	 * Create the application.
+	 * @throws Exception 
 	 */
-	public Main() {
-		initialize();
+	public Main() throws Exception {
+		MockedData.mockData(c);
+		initializeGUI();
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	public void InstalaLlatzer(){  
-		JFrame f = new JFrame();  
-		String nomHospital = JOptionPane.showInputDialog(f,"Enter Name");
-		try {
-			if ((nomHospital != null) && (nomHospital.length() > 0)) {
-				c.novaInstalacio(nomHospital);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(f, e.getMessage());
-			InstalaLlatzer();
-		}
-		
-	}  
 	
-	private void initialize() {
-		
-		//TODO: Info initializer. Bucle for con randomStringGenerator y catch e.getMessage()
-		try {
-			c.addHospital("hey");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	
+	private void initializeGUI() {
+			
 		
 		frame = new JFrame();
 		frame.setBackground(Color.ORANGE);
@@ -105,13 +79,153 @@ public class Main {
 		panelMenu.setLayout(null);
 		
 		JButton buttonAltaPacient = new JButton("Alta Pacient");
-		buttonAltaPacient.setBounds(219, 11, 163, 27);
+		buttonAltaPacient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AltaPacient();
+			}
+		});
+		buttonAltaPacient.setBounds(220, 22, 170, 30);
 		buttonAltaPacient.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panelMenu.add(buttonAltaPacient);
 		
+		JButton buttonNouAny = new JButton("Nou Any");
+		buttonNouAny.setFont(new Font("Tahoma", Font.BOLD, 14));
+		buttonNouAny.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NouAny();
+			}
+		});
+		buttonNouAny.setBounds(220, 250, 170, 30);
+		panelMenu.add(buttonNouAny);
 		
+		JButton buttonRealitzaProva = new JButton("Realitza Prova");
+		buttonRealitzaProva.setFont(new Font("Tahoma", Font.BOLD, 15));
+		buttonRealitzaProva.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RealitzaProva();
+			}
+		});
+		buttonRealitzaProva.setBounds(220, 93, 170, 30);
+		panelMenu.add(buttonRealitzaProva);
 		
+		JButton buttonTancarExpedient = new JButton("Tancar Expedient");
+		buttonTancarExpedient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TancarExpedient();
+			}
+		});
+		buttonTancarExpedient.setFont(new Font("Tahoma", Font.BOLD, 15));
+		buttonTancarExpedient.setBounds(220, 154, 170, 30);
+		panelMenu.add(buttonTancarExpedient);
 		
-
 	}
+	
+	/**
+	 * CU InstalaLlatzer.
+	 */
+	private void InstalaLlatzer(){  
+		JFrame f = new JFrame();  
+		String nomHospital = JOptionPane.showInputDialog(f,"Introdueix el nom del Hospital", "Insta·lació Llatzer", 1);
+		try {
+			if ((nomHospital != null) && (nomHospital.length() > 0)) {
+				c.novaInstalacio(nomHospital);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(f, e.getMessage());
+			InstalaLlatzer();
+		}
+	} 
+	
+	/**
+	 * CU AltaPacient.
+	 */
+	private void AltaPacient(){  
+		JFrame f = new JFrame();  
+		String tsiPacient = JOptionPane.showInputDialog(f,"Introdueix el TSI del Pacient", "Alta Pacient", 1);
+		try {
+			if (tsiPacient != null && !tsiPacient.isEmpty()) {
+				c.nouPatracol(tsiPacient);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(f, e.getMessage());
+			AltaPacient();
+		}
+	} 
+	
+	private void TancarExpedient() {
+		JFrame f = new JFrame();  
+		String idExpedient = JOptionPane.showInputDialog(f,"Introdueix el ID del Expedient", "TancarExpedient", 1);
+		try {
+			if (idExpedient != null && !idExpedient.isEmpty()) {
+				c.tancar(idExpedient);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(f, e.getMessage());
+			TancarExpedient();
+		}
+	}
+	
+	/**
+	 * CU RealitzaProva.
+	 */
+	private void RealitzaProva(){  
+		JFrame f = new JFrame();  
+		
+		JTextField TSI = new JTextField();
+		JTextField nomHospital = new JTextField();
+		JTextField idInforme = new JTextField();
+		JTextField nomProva = new JTextField();
+		JTextField resultat = new JTextField();
+		Object[] inputObject = {
+			"Introdueix el TSI del Pacient:",TSI,
+			"Introdueix el nom del Hospital (en cas de que l'Informe pertanyi a un altre):",nomHospital,
+			"Introdueix el id del Informe:",idInforme,
+			"Introdueix el nom de la prova",nomProva,
+			"Introdueix el resultat",resultat
+			
+		};
+		JOptionPane.showConfirmDialog(f, inputObject, "Realitza Prova", JOptionPane.DEFAULT_OPTION);
+		try {
+			if(TSI.getText() != null && !TSI.getText().isEmpty() && idInforme != null && !idInforme.getText().isEmpty() 
+					&& nomProva != null && !nomProva.getText().isEmpty() 
+					&& resultat != null && !resultat.getText().isEmpty()) {
+				
+				c.introdueixResultat(TSI.getText(), nomHospital.getText(), idInforme.getText(), nomProva.getText(), resultat.getText());
+			}
+		}
+		catch (Exception e) {
+			JOptionPane.showMessageDialog(f, e.getMessage());
+			RealitzaProva();
+		}
+	} 
+	
+	/**
+	 * CU NouAny.
+	 */
+	private void NouAny(){  
+		c.iniciAny();
+		
+		JFrame f = new JFrame();  
+		String nomHospital = JOptionPane.showInputDialog  (f,"Introdueix el nom del Hospital","Nou Any",1);
+		while(nomHospital != null && !nomHospital.isEmpty()) {
+			try {
+				c.actualitzaHospital(nomHospital);
+				String nomFacultatiu = JOptionPane.showInputDialog(f,"Introdueix el nom del Facultatiu", "Nou Any",1);
+				while(nomFacultatiu != null && !nomFacultatiu.isEmpty()) {
+					try {
+						c.actualitzaFacultatiu(nomFacultatiu);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(f, e.getMessage());
+					}
+					nomFacultatiu = JOptionPane.showInputDialog(f,"Introdueix el nom del Facultatiu", "Nou Any",1);
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(f, e.getMessage());
+			}
+			nomHospital = JOptionPane.showInputDialog(f,"Introdueix el nom del Hospital", "Nou Any",1);
+		}
+		c.fiAny();
+	} 
 }

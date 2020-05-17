@@ -32,6 +32,13 @@ public class Expedient {
 		this.pac = pac;
 		this.pertany = hosp;
 	}
+
+	public void tancar() {
+		this.obert = false;
+		this.pac = null;
+		this.fac = null;
+		
+	}
 	
 	
 	

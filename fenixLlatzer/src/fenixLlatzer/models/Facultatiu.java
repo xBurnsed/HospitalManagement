@@ -31,6 +31,13 @@ public class Facultatiu {
 		this.genera = new HashMap<String, Expedient>();
 		this.obert = new HashMap<String, Expedient>();
 	}
+
+
+	public void iniciAny() {
+		this.nombreExpedientsAnuals = 0;
+		this.nombreInformesAnuals = 0;
+		this.mitjaInformes = 0;
+	}
 	
 	
 	

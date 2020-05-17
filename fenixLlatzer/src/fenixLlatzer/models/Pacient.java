@@ -39,6 +39,12 @@ public class Pacient {
 
 	public String getNumTelef() {
 		return numTelef;
+	}
+
+	public void iniciAny() {
+		this.nombreExpedientsAnual = 0;
+		this.nombreInformesAnual = 0;
+		this.mitjaInformes = 0;
 	}	
 	
 	
