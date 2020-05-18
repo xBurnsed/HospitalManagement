@@ -10,21 +10,21 @@ public class Pacient {
 	
 	private String nomPacient;
 	private String numTelef;
-	private int nombreExpedientsAnual;
-	private int nombreInformesAnual;
-	private float mitjaInformes;
+	public int nombreExpedientsAnual;
+	public int nombreInformesAnual;
+	public float mitjaInformes;
 	
 	private Map<String, Expedient> actiu;
 	private Map<String, Expedient> organitza;
 	
-	public Pacient(String tSI, String nomPacient, String numTelef, int nombreExpedientsAnual, int nombreInformesAnual,  float mitjaInformes) {
+	public Pacient(String tSI, String nomPacient, String numTelef) {
 		super();
 		this.TSI = tSI;
 		this.nomPacient = nomPacient;
 		this.numTelef = numTelef;
-		this.nombreExpedientsAnual = nombreExpedientsAnual;
-		this.nombreInformesAnual = nombreInformesAnual;
-		this.mitjaInformes = mitjaInformes;
+		this.nombreExpedientsAnual = 0;
+		this.nombreInformesAnual = 0;
+		this.mitjaInformes = 0;
 		this.actiu = new HashMap<String, Expedient>();
 		this.organitza = new HashMap<String, Expedient>();
 	}
@@ -45,6 +45,10 @@ public class Pacient {
 		this.nombreExpedientsAnual = 0;
 		this.nombreInformesAnual = 0;
 		this.mitjaInformes = 0;
+	}
+
+	public void tancar(Expedient e) {
+		actiu.remove(e.getIdExpedient());
 	}	
 	
 	

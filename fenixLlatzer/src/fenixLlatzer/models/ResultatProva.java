@@ -12,13 +12,13 @@ public class ResultatProva {
 	
 	
 	private LocalDate dataProva;
-	private String resultat;
+	private String descripcioResultat;
 	
 	public ResultatProva(String resultat) {
 		super();
 		this.idProva = String.valueOf(count.getAndIncrement());
-		this.dataProva = java.time.LocalDate.now();
-		this.resultat = resultat;
+		this.dataProva = LocalDate.now();
+		this.descripcioResultat = resultat;
 	}
 
 	public String getIdProva() {

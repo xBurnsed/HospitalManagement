@@ -9,9 +9,9 @@ public class Facultatiu {
 	private String idFacultatiu;
 	
 	private String nomFactultatiu;
-	private int nombreExpedientsAnuals;
-	private int nombreInformesAnuals;
-	private float mitjaInformes;
+	public int nombreExpedientsAnuals;
+	public int nombreInformesAnuals;
+	public float mitjaInformes;
 	
 	//llistas d'access
 	private Map<String, Hospital> visita;
@@ -19,14 +19,13 @@ public class Facultatiu {
 	private Map<String, Expedient> obert;
 	
 	
-	public Facultatiu(String idFacultatiu, String nomFactultatiu, int nombreExpedientsAnuals, int nombreInformesAnuals,
-			float mitjaInformes) {
+	public Facultatiu(String idFacultatiu, String nomFactultatiu) {
 		super();
 		this.idFacultatiu = idFacultatiu;
 		this.nomFactultatiu = nomFactultatiu;
-		this.nombreExpedientsAnuals = nombreExpedientsAnuals;
-		this.nombreInformesAnuals = nombreInformesAnuals;
-		this.mitjaInformes = mitjaInformes;
+		this.nombreExpedientsAnuals = 0;
+		this.nombreInformesAnuals = 0;
+		this.mitjaInformes = 0;
 		this.visita = new HashMap<String, Hospital>();
 		this.genera = new HashMap<String, Expedient>();
 		this.obert = new HashMap<String, Expedient>();
@@ -39,10 +38,15 @@ public class Facultatiu {
 		this.mitjaInformes = 0;
 	}
 	
-	
-	
-	
-	
+	public void tancar(Expedient e) {
+		obert.remove(e.getIdExpedient());
+	}
+
+
+	public void iniciIntroduccioInforme(Expedient e) {
+		genera.put(e.getIdExpedient(), e);
+		obert.put(e.getIdExpedient(),e);
+	}
 	
 	
 		

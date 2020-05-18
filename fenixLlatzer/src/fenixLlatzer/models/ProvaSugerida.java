@@ -5,22 +5,19 @@ public class ProvaSugerida {
 	//id
 	private String idProvaSugerida;
 	
-	private Informe informe;
 	private ProvaDiagnostica provaDiagnostica;
-	private ResultatProva resultatProva;
+	private ResultatProva resultat;
 	
 	
-	//PRE: Ja s'ha comprovat al crear el nou ProvaSugerida que no existeix cap igual amb ProvaSugerida.id = <informe, provaDiagnostica>
-	public ProvaSugerida(Informe informe, ProvaDiagnostica provaDiagnostica) {
+	public ProvaSugerida(ProvaDiagnostica provaDiagnostica) {
 		super();
-		this.idProvaSugerida = informe.getIdInforme() + provaDiagnostica.getNomProva();
-		this.informe = informe;
+		this.idProvaSugerida = provaDiagnostica.getNomProva();
 		this.provaDiagnostica = provaDiagnostica;
-		this.resultatProva = null;
+		this.resultat = null;
 	}
 	
 	public void introdueixResultat(ResultatProva r) {
-		this.resultatProva = r;
+		this.resultat = r;
 	}
 	
 	

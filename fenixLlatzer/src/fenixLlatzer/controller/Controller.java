@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import fenixLlatzer.models.Expedient;
 import fenixLlatzer.models.Facultatiu;
 import fenixLlatzer.models.Hospital;
+import fenixLlatzer.models.Informe;
 import fenixLlatzer.models.Medicament;
 import fenixLlatzer.models.Pacient;
 import fenixLlatzer.models.ProvaDiagnostica;
@@ -22,6 +24,8 @@ public class Controller {
 	private Hospital hospitalDiferenciat;
 	private Hospital hospitalDiferenciatNouAny;
 	
+	private Informe informeDiferenciat;
+	
 	public Hospital getHospitalDiferenciat() {
 		return this.hospitalDiferenciat;
 	}
@@ -35,7 +39,7 @@ public class Controller {
 	}
 	public void addPacient(String tsiPacient, String nomPacient, String numTelef){
 		if(!repPacient.containsKey(tsiPacient)) {
-			Pacient p = new Pacient(tsiPacient, nomPacient, numTelef, 0, 0, 0);
+			Pacient p = new Pacient(tsiPacient, nomPacient, numTelef);
 			Controller.repPacient.put(tsiPacient, p);
 		}
 	}
@@ -54,7 +58,7 @@ public class Controller {
 	}
 	public void addFacultatiu(String idFacultatiu, String nomFacultatiu){
 		if(!repProvaDiagnostica.containsKey(idFacultatiu)) {
-			Facultatiu fac = new Facultatiu(idFacultatiu, nomFacultatiu, 0, 0, 0);
+			Facultatiu fac = new Facultatiu(idFacultatiu, nomFacultatiu);
 			Controller.repFacultatiu.put(idFacultatiu, fac);
 		}
 	}
@@ -100,7 +104,7 @@ public class Controller {
 	
 	//CU TancarExpedient
 	public void tancar(String idExpedient) throws Exception {
-		this.hospitalDiferenciat.tancar(idExpedient);
+		this.hospitalDiferenciat.tancar(idExpedient);		
 	}
 	
 	
@@ -122,12 +126,7 @@ public class Controller {
 	public void actualitzaFacultatiu(String idFacultatiu) throws Exception {
 		if(repFacultatiu.containsKey(idFacultatiu)) {
 			Facultatiu f = Controller.repFacultatiu.get(idFacultatiu);
-			if(this.hospitalDiferenciatNouAny.containsFacultatiuById(idFacultatiu)) {
-				this.hospitalDiferenciatNouAny.removeFacultatiuById(idFacultatiu);
-			}
-			else {
-				this.hospitalDiferenciatNouAny.addFacultatiu(idFacultatiu, f);
-			}	
+			this.hospitalDiferenciatNouAny.actualitzaFacultatiu(idFacultatiu, f);
 		}
 		else {
 			throw new Exception ("No existeix cap facultatiu amb aquest id!");
@@ -136,6 +135,50 @@ public class Controller {
 	
 	public void fiAny() {
 		this.hospitalDiferenciatNouAny = null;
+	}
+	
+	
+	//CU IntroduirInforme
+	public void iniciIntroduccioInforme(String idFacultatiu, String TSI, String idExpedient, String patologia, String observacions) throws Exception {
+		if(repFacultatiu.containsKey(idFacultatiu)) {
+			Facultatiu f = repFacultatiu.get(idFacultatiu);
+			if(repPacient.containsKey(TSI)) {
+				Pacient p = repPacient.get(TSI);
+				informeDiferenciat = hospitalDiferenciat.iniciIntroduccioInforme(f,p, idExpedient, patologia,observacions);
+				
+			}
+			else {
+				throw new Exception ("No s'ha trobat cap Pacient amb aquest ID!");
+			}
+			
+		}
+		else {
+			throw new Exception ("No s'ha trobat cap Facultatiu amb aquest ID!");
+		}
+	}
+	
+	public void nouMedicamentRecomanat(String nomMedicament, String dosi, String pauta) throws Exception {
+		if(repMedicament.containsKey(nomMedicament)) {
+			Medicament m = repMedicament.get(nomMedicament);
+			informeDiferenciat.nouMedicamentRecomanat(m,dosi,pauta);
+		}
+		else {
+			throw new Exception ("No s'ha trobat cap Medicament amb aquest ID!");
+		}
+	}
+	
+	public void novaProvaSugerida(String nomProva) throws Exception {
+		if(repProvaDiagnostica.containsKey(nomProva)) {
+			ProvaDiagnostica pd = repProvaDiagnostica.get(nomProva);
+			informeDiferenciat.novaProvaSugerida(pd);
+		}
+		else {
+			throw new Exception ("No s'ha trobat cap Prova Diagnòstica amb aquest ID!");
+		}
+	}
+	
+	public void fiIntroduirInforme() {
+		informeDiferenciat = null;
 	}
 	
 

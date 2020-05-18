@@ -1,19 +1,13 @@
 package fenixLlatzer.utils;
 
 
-
-import com.github.javafaker.Faker;
-
 import fenixLlatzer.controller.Controller;
 
 
 
 public class MockedData {
 
-	
-	
-	private static Faker fake = new Faker();
-	
+		
 	public static void mockData(Controller c) throws Exception {
 
 		mockHospitals(c);
@@ -32,13 +26,13 @@ public class MockedData {
 	
 	private static void mockPacients(Controller c) throws Exception {
 		for(Integer i = 0; i<100; i++) {	
-			c.addPacient(i.toString(),fake.name().fullName(), fake.phoneNumber().phoneNumber());
+			c.addPacient(i.toString(),"FakeName Mock", "612345678");
 		}
 	}
 	
 	private static void mockFacultatius(Controller c) throws Exception {
 		for(Integer i = 0; i<100; i++) {	
-			c.addFacultatiu(i.toString(), fake.name().fullName());
+			c.addFacultatiu(i.toString(), "FakeName Mock");
 		}
 	}
 	

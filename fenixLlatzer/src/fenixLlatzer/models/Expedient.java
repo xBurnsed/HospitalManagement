@@ -1,6 +1,6 @@
 package fenixLlatzer.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,8 +9,8 @@ public class Expedient {
 	private String idExpedient;
 	
 	private String patologia;
-	private Date dataCreacio;
-	private Date dataTancament;
+	private LocalDate dataCreacio;
+	private LocalDate dataTancament;
 	private boolean obert;
 	
 	//repositori
@@ -18,28 +18,31 @@ public class Expedient {
 	
 	private Facultatiu fac;
 	private Pacient pac;
-	private Hospital pertany;
 	
-	public Expedient(String idExpedient, String patologia, Date dataCreacio, Date dataTancament, boolean obert, Facultatiu fac, Pacient pac, Hospital hosp) {
+	public Expedient(String idExpedient, String patologia, Facultatiu fac, Pacient pac) {
 		super();
 		this.idExpedient = idExpedient;
 		this.patologia = patologia;
-		this.dataCreacio = dataCreacio;
-		this.dataTancament = dataTancament;
-		this.obert = obert;
+		this.dataCreacio = LocalDate.now();
+		this.dataTancament = null;
+		this.obert = true;
 		this.agrupat = new HashMap<String, Informe>();
 		this.fac = fac;
 		this.pac = pac;
-		this.pertany = hosp;
+	}
+	
+	
+	public String getIdExpedient() {
+		return idExpedient;
 	}
 
 	public void tancar() {
-		this.obert = false;
+		this.obert = false;		
+		this.pac.tancar(this);
+		this.fac.tancar(this);
 		this.pac = null;
 		this.fac = null;
+		this.dataTancament= LocalDate.now();
 		
 	}
-	
-	
-	
 }

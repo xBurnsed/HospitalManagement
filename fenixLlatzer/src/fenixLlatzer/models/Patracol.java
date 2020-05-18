@@ -53,6 +53,14 @@ public class Patracol {
 		
 		
 	}
+
+	public Informe iniciIntroduccioInforme(String observacions) {
+		Informe i = new Informe(observacions);
+		gestiona.put(i.getIdInforme(),i);
+		
+		return i;
+		
+	}
 	
 	
 	

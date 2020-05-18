@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import fenixLlatzer.controller.Controller;
@@ -95,7 +96,7 @@ public class Main {
 				NouAny();
 			}
 		});
-		buttonNouAny.setBounds(220, 250, 170, 30);
+		buttonNouAny.setBounds(220, 299, 170, 30);
 		panelMenu.add(buttonNouAny);
 		
 		JButton buttonRealitzaProva = new JButton("Realitza Prova");
@@ -105,7 +106,7 @@ public class Main {
 				RealitzaProva();
 			}
 		});
-		buttonRealitzaProva.setBounds(220, 93, 170, 30);
+		buttonRealitzaProva.setBounds(220, 167, 170, 30);
 		panelMenu.add(buttonRealitzaProva);
 		
 		JButton buttonTancarExpedient = new JButton("Tancar Expedient");
@@ -115,8 +116,19 @@ public class Main {
 			}
 		});
 		buttonTancarExpedient.setFont(new Font("Tahoma", Font.BOLD, 15));
-		buttonTancarExpedient.setBounds(220, 154, 170, 30);
+		buttonTancarExpedient.setBounds(220, 232, 170, 30);
 		panelMenu.add(buttonTancarExpedient);
+		
+		JButton buttonIntroduirInforme = new JButton("Introduir Informe");
+		buttonIntroduirInforme.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				IntroduirInforme();
+			}
+			
+		});
+		buttonIntroduirInforme.setFont(new Font("Tahoma", Font.BOLD, 15));
+		buttonIntroduirInforme.setBounds(220, 96, 170, 30);
+		panelMenu.add(buttonIntroduirInforme);
 		
 	}
 	
@@ -129,6 +141,11 @@ public class Main {
 		try {
 			if ((nomHospital != null) && (nomHospital.length() > 0)) {
 				c.novaInstalacio(nomHospital);
+				JOptionPane.showConfirmDialog(f, "S'ha instal·lat el Llatzer amb éxit!", "Instal·la Llatzer", JOptionPane.DEFAULT_OPTION , JOptionPane.PLAIN_MESSAGE);
+			}
+			else {
+				JOptionPane.showMessageDialog(f, "Introdueix un nom d'Hospital vàlid!");
+				InstalaLlatzer();
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -146,6 +163,7 @@ public class Main {
 		try {
 			if (tsiPacient != null && !tsiPacient.isEmpty()) {
 				c.nouPatracol(tsiPacient);
+				JOptionPane.showConfirmDialog(f, "S'ha creat el nou Patracol amb éxit!", "Alta Pacient", JOptionPane.DEFAULT_OPTION , JOptionPane.PLAIN_MESSAGE);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -160,6 +178,7 @@ public class Main {
 		try {
 			if (idExpedient != null && !idExpedient.isEmpty()) {
 				c.tancar(idExpedient);
+				JOptionPane.showConfirmDialog(f, "S'ha tancat l'expedient amb éxit!", "Tancar Expedient", JOptionPane.DEFAULT_OPTION , JOptionPane.PLAIN_MESSAGE);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(f, e.getMessage());
@@ -193,6 +212,7 @@ public class Main {
 					&& resultat != null && !resultat.getText().isEmpty()) {
 				
 				c.introdueixResultat(TSI.getText(), nomHospital.getText(), idInforme.getText(), nomProva.getText(), resultat.getText());
+				JOptionPane.showConfirmDialog(f, "S'ha introduit el Resultat de la Prova amb éxit!", "Realitza Prova", JOptionPane.DEFAULT_OPTION , JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 		catch (Exception e) {
@@ -200,6 +220,82 @@ public class Main {
 			RealitzaProva();
 		}
 	} 
+	
+	
+	/**
+	 * CU IntroduirInforme.
+	 */
+	private void IntroduirInforme(){  
+		JFrame f = new JFrame();  
+		
+		JTextField idFacultatiu = new JTextField();
+		JTextField TSI = new JTextField();
+		JTextField idExpedient = new JTextField();
+		JTextField patologia = new JTextField();
+		JTextArea observacions = new JTextArea();
+		observacions.setRows(3);
+		
+		Object[] inputObject = {
+				"Introdueix el identficiador del Facultatiu:",idFacultatiu,
+				"Introdueix el TSI del Pacient:",TSI,
+				"Introdueix el identficiador del Expedient:",idExpedient,
+				"Introdueix la patologia del Expedient (en cas de que sigui un nou):",patologia,
+				"Introdueix les observacions del Informe:",observacions	
+			};
+		
+		JOptionPane.showConfirmDialog(f, inputObject, "Introduir Informe", JOptionPane.DEFAULT_OPTION);
+		
+		try {
+			c.iniciIntroduccioInforme(idFacultatiu.getText(), TSI.getText(), idExpedient.getText(), patologia.getText(), observacions.getText());
+			
+			JTextField nomMedicament = new JTextField();
+			JTextField dosi = new JTextField();
+			JTextField pauta = new JTextField();
+			
+			Object[] inputObjectMedicament = {
+					"Introdueix Nom Mediament:",nomMedicament,
+					"Introdueix dosi:",dosi,
+					"Introdueix pauta:",pauta
+			};
+			Object[] optionsMedicament = {"Desa Medicament", "Següent"};
+			
+			int n = JOptionPane.showOptionDialog(f, inputObjectMedicament, "Introduir Medicament", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsMedicament, optionsMedicament[0]);
+			while(n == 0) {
+				try {
+					c.nouMedicamentRecomanat(nomMedicament.getText(), dosi.getText(), pauta.getText());
+					n = JOptionPane.showOptionDialog(f, inputObjectMedicament, "Introduir Medicament", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsMedicament, optionsMedicament[0]);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(f, e.getMessage());
+					n = JOptionPane.showOptionDialog(f, inputObjectMedicament, "Introduir Medicament", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsMedicament, optionsMedicament[0]);
+				}
+			}
+			
+			JTextField nomProva = new JTextField();
+			
+			Object[] inputObjectProva = {
+					"Introdueix el nom de la Prova Sugerida:",nomProva,
+			};
+			Object[] optionsProva = {"Desa Prova", "Següent"};
+			
+			n = JOptionPane.showOptionDialog(f, inputObjectProva, "Introduir Prova", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsProva, optionsProva[0]);
+			while(n == 0) {
+				try {
+					c.novaProvaSugerida(nomProva.getText());
+					n = JOptionPane.showOptionDialog(f, inputObjectProva, "Introduir Prova", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsProva, optionsProva[0]);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(f, e.getMessage());
+					n = JOptionPane.showOptionDialog(f, inputObjectProva, "Introduir Prova", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsProva, optionsProva[0]);
+				}
+			}
+			
+			c.fiIntroduirInforme();
+			JOptionPane.showConfirmDialog(f, "S'ha introduit l'informe amb éxit!", "Introduir Informe", JOptionPane.DEFAULT_OPTION , JOptionPane.PLAIN_MESSAGE);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(f, e.getMessage());
+		}
+		
+	}
 	
 	/**
 	 * CU NouAny.

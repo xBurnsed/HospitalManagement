@@ -40,18 +40,16 @@ public class Hospital {
 	public String getNomHospital() {
 		return nomHospital;
 	}	
-	
-	public boolean containsFacultatiuById(String idFacultatiu) {
-		return visita.get(idFacultatiu) != null;
+		
+	public void actualitzaFacultatiu(String idFacultatiu, Facultatiu f) {
+		if(visita.get(idFacultatiu) != null) {
+			visita.put(idFacultatiu, f);
+		}
+		else {
+			visita.remove(idFacultatiu);
+		}
 	}
-	
-	public void removeFacultatiuById(String idFactulatiu) {
-		visita.remove(idFactulatiu);
-	}
-	
-	public void addFacultatiu(String idFacultatiu, Facultatiu f) {
-		visita.put(idFacultatiu, f);
-	}
+
 	
 	//neteja estadistiques i llistes en cas que fos una reinstalació.
 	public void novaInstalacio() {
@@ -71,7 +69,7 @@ public class Hospital {
 		if(p != null && !patracols.containsKey(p.getTSI())) {
 			Patracol pat = new Patracol(p);
 			patracols.put(pat.getIdPatracol(), pat);
-			this.nombreExpedientAnual++;
+			this.nombrePatracolsAnual++;
 			this.nombrePatracolsTotals++;
 		}
 		else {
@@ -110,6 +108,31 @@ public class Hospital {
 	public void iniciAny() {
 		this.nombreExpedientAnual = 0;
 		this.nombrePatracolsAnual = 0;
+	}
+
+
+	public Informe iniciIntroduccioInforme(Facultatiu f, Pacient p, String idExpedient, String patologia, String observacions) {
+		Expedient e;
+		if(!pertany.containsKey(idExpedient)) {
+			e = new Expedient(idExpedient, patologia, f, p);
+			this.nombreExpedientAnual++;
+			this.nombreExpedientsTotal++;
+			pertany.put(e.getIdExpedient(), e);
+			f.iniciIntroduccioInforme(e);
+			f.nombreExpedientsAnuals++;
+			p.nombreExpedientsAnual++;
+		}
+		
+		Patracol pat = patracols.get(p.getTSI());
+		Informe i = pat.iniciIntroduccioInforme(observacions);
+		p.nombreInformesAnual++;
+		p.mitjaInformes = p.nombreInformesAnual/p.nombreExpedientsAnual;
+		f.nombreInformesAnuals++;
+		f.mitjaInformes = f.nombreInformesAnuals/f.nombreExpedientsAnuals;
+		
+		return i;
+		
+		
 	}
 
 
