@@ -53,6 +53,7 @@ public class Main {
 			
 		
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.setBackground(Color.ORANGE);
 		frame.setBounds(100, 100, 612, 405);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,6 +64,7 @@ public class Main {
 		frame.getContentPane().add(panel, "name_113099293959000");
 		
 		JButton buttonInstalacio = new JButton("Instal·lació de Llatzer");
+		buttonInstalacio.setFocusable(false);
 		buttonInstalacio.setBounds(158, 156, 307, 29);
 		buttonInstalacio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -80,6 +82,7 @@ public class Main {
 		panelMenu.setLayout(null);
 		
 		JButton buttonAltaPacient = new JButton("Alta Pacient");
+		buttonAltaPacient.setFocusable(false);
 		buttonAltaPacient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AltaPacient();
@@ -90,6 +93,7 @@ public class Main {
 		panelMenu.add(buttonAltaPacient);
 		
 		JButton buttonNouAny = new JButton("Nou Any");
+		buttonNouAny.setFocusable(false);
 		buttonNouAny.setFont(new Font("Tahoma", Font.BOLD, 14));
 		buttonNouAny.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -100,6 +104,7 @@ public class Main {
 		panelMenu.add(buttonNouAny);
 		
 		JButton buttonRealitzaProva = new JButton("Realitza Prova");
+		buttonRealitzaProva.setFocusable(false);
 		buttonRealitzaProva.setFont(new Font("Tahoma", Font.BOLD, 15));
 		buttonRealitzaProva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -110,6 +115,7 @@ public class Main {
 		panelMenu.add(buttonRealitzaProva);
 		
 		JButton buttonTancarExpedient = new JButton("Tancar Expedient");
+		buttonTancarExpedient.setFocusable(false);
 		buttonTancarExpedient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TancarExpedient();
@@ -120,6 +126,7 @@ public class Main {
 		panelMenu.add(buttonTancarExpedient);
 		
 		JButton buttonIntroduirInforme = new JButton("Introduir Informe");
+		buttonIntroduirInforme.setFocusable(false);
 		buttonIntroduirInforme.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				IntroduirInforme();

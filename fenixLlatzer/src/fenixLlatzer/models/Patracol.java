@@ -64,8 +64,8 @@ public class Patracol {
 		
 	}
 
-	public Informe iniciIntroduccioInforme(String observacions) {
-		Informe i = new Informe(observacions);
+	public Informe iniciIntroduccioInforme(String observacions, Expedient e) {
+		Informe i = new Informe(observacions, e, this);
 		gestiona.put(i.getIdInforme(),i);
 		
 		return i;

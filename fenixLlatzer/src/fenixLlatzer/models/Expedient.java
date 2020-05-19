@@ -16,8 +16,8 @@ public class Expedient {
 	//repositori
 	private Map<String,Informe> agrupat;
 	
-	private Facultatiu fac;
-	private Pacient pac;
+	private Facultatiu genera;
+	private Pacient organitza;
 	
 	public Expedient(String idExpedient, String patologia, Facultatiu fac, Pacient pac) {
 		super();
@@ -27,8 +27,8 @@ public class Expedient {
 		this.dataTancament = null;
 		this.obert = true;
 		this.agrupat = new HashMap<String, Informe>();
-		this.fac = fac;
-		this.pac = pac;
+		this.genera = fac;
+		this.organitza = pac;
 	}
 	
 	
@@ -37,12 +37,19 @@ public class Expedient {
 	}
 
 	public void tancar() {
-		this.obert = false;		
-		this.pac.tancar(this);
-		this.fac.tancar(this);
-		this.pac = null;
-		this.fac = null;
 		this.dataTancament= LocalDate.now();
-		
+		this.obert = false;		
+		this.organitza = null;
+		this.genera = null;		
+	}
+
+
+	public void iniciIntroduccioInforme(Informe i) throws Exception {
+		if(!agrupat.containsKey(i.getIdInforme())) {
+			agrupat.put(i.getIdInforme(), i);
+		}
+		else {
+			throw new Exception ("Ja existeix un informe amb aquest ID per a aquest expedient!");
+		}
 	}
 }

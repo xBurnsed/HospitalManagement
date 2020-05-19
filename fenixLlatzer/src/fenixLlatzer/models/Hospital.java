@@ -51,7 +51,7 @@ public class Hospital {
 	}
 
 	
-	//neteja estadistiques i llistes en cas que fos una reinstalació.
+	//neteja estadistiques i llistes.
 	public void novaInstalacio() {
 		this.nombreExpedientAnual = 0;
 		this.nombreExpedientsTotal = 0;
@@ -120,22 +120,28 @@ public class Hospital {
 		}
 		
 		Expedient e;
-		if(!pertany.containsKey(idExpedient)) {
+		if(pertany.containsKey(idExpedient)){
+			e = pertany.get(idExpedient);
+		}
+		else {
 			e = new Expedient(idExpedient, patologia, f, p);
 			this.nombreExpedientAnual++;
 			this.nombreExpedientsTotal++;
 			pertany.put(e.getIdExpedient(), e);
-			f.iniciIntroduccioInforme(e);
 			f.nombreExpedientsAnuals++;
 			p.nombreExpedientsAnual++;
 		}
+
 		if(patracols.containsKey(p.getTSI())) {
 			Patracol pat = patracols.get(p.getTSI());
-			Informe i = pat.iniciIntroduccioInforme(observacions);
+			Informe i = pat.iniciIntroduccioInforme(observacions,e);
 			p.nombreInformesAnual++;
 			p.mitjaInformes = p.nombreInformesAnual/p.nombreExpedientsAnual;
 			f.nombreInformesAnuals++;
 			f.mitjaInformes = f.nombreInformesAnuals/f.nombreExpedientsAnuals;
+			
+			e.iniciIntroduccioInforme(i);
+			
 			return i;
 		}
 		else {

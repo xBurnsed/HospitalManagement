@@ -37,7 +37,7 @@ public class MockedData {
 	}
 	
 	private static void mockMedicaments(Controller c) throws Exception {
-		c.addMedicament("Iboprufeno");
+		c.addMedicament("Ibuprofeno");
 		c.addMedicament("Ibis");
 		c.addMedicament("Ventolin");
 		c.addMedicament("Almax");

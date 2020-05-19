@@ -1,10 +1,8 @@
 package fenixLlatzer.controller;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-import fenixLlatzer.models.Expedient;
 import fenixLlatzer.models.Facultatiu;
 import fenixLlatzer.models.Hospital;
 import fenixLlatzer.models.Informe;
@@ -107,6 +105,49 @@ public class Controller {
 		this.hospitalDiferenciat.tancar(idExpedient);		
 	}
 	
+	//CU IntroduirInforme
+		public void iniciIntroduccioInforme(String idFacultatiu, String TSI, String idExpedient, String patologia, String observacions) throws Exception {
+			if(repFacultatiu.containsKey(idFacultatiu)) {
+				Facultatiu f = repFacultatiu.get(idFacultatiu);
+				if(repPacient.containsKey(TSI)) {
+					Pacient p = repPacient.get(TSI);
+					informeDiferenciat = hospitalDiferenciat.iniciIntroduccioInforme(f,p, idExpedient, patologia,observacions);
+					
+				}
+				else {
+					throw new Exception ("No s'ha trobat cap Pacient amb aquest ID!");
+				}
+				
+			}
+			else {
+				throw new Exception ("No s'ha trobat cap Facultatiu amb aquest ID!");
+			}
+		}
+		
+		public void nouMedicamentRecomanat(String nomMedicament, String dosi, String pauta) throws Exception {
+			if(repMedicament.containsKey(nomMedicament)) {
+				Medicament m = repMedicament.get(nomMedicament);
+				informeDiferenciat.nouMedicamentRecomanat(m,dosi,pauta);
+			}
+			else {
+				throw new Exception ("No s'ha trobat cap Medicament amb aquest ID!");
+			}
+		}
+		
+		public void novaProvaSugerida(String nomProva) throws Exception {
+			if(repProvaDiagnostica.containsKey(nomProva)) {
+				ProvaDiagnostica pd = repProvaDiagnostica.get(nomProva);
+				informeDiferenciat.novaProvaSugerida(pd);
+			}
+			else {
+				throw new Exception ("No s'ha trobat cap Prova Diagnòstica amb aquest ID!");
+			}
+		}
+		
+		public void fiIntroduirInforme() {
+			informeDiferenciat = null;
+		}
+	
 	
 	//CU nouAny
 	public void iniciAny() {
@@ -136,50 +177,7 @@ public class Controller {
 	public void fiAny() {
 		this.hospitalDiferenciatNouAny = null;
 	}
-	
-	
-	//CU IntroduirInforme
-	public void iniciIntroduccioInforme(String idFacultatiu, String TSI, String idExpedient, String patologia, String observacions) throws Exception {
-		if(repFacultatiu.containsKey(idFacultatiu)) {
-			Facultatiu f = repFacultatiu.get(idFacultatiu);
-			if(repPacient.containsKey(TSI)) {
-				Pacient p = repPacient.get(TSI);
-				informeDiferenciat = hospitalDiferenciat.iniciIntroduccioInforme(f,p, idExpedient, patologia,observacions);
-				
-			}
-			else {
-				throw new Exception ("No s'ha trobat cap Pacient amb aquest ID!");
-			}
-			
-		}
-		else {
-			throw new Exception ("No s'ha trobat cap Facultatiu amb aquest ID!");
-		}
-	}
-	
-	public void nouMedicamentRecomanat(String nomMedicament, String dosi, String pauta) throws Exception {
-		if(repMedicament.containsKey(nomMedicament)) {
-			Medicament m = repMedicament.get(nomMedicament);
-			informeDiferenciat.nouMedicamentRecomanat(m,dosi,pauta);
-		}
-		else {
-			throw new Exception ("No s'ha trobat cap Medicament amb aquest ID!");
-		}
-	}
-	
-	public void novaProvaSugerida(String nomProva) throws Exception {
-		if(repProvaDiagnostica.containsKey(nomProva)) {
-			ProvaDiagnostica pd = repProvaDiagnostica.get(nomProva);
-			informeDiferenciat.novaProvaSugerida(pd);
-		}
-		else {
-			throw new Exception ("No s'ha trobat cap Prova Diagnòstica amb aquest ID!");
-		}
-	}
-	
-	public void fiIntroduirInforme() {
-		informeDiferenciat = null;
-	}
+
 	
 
 }

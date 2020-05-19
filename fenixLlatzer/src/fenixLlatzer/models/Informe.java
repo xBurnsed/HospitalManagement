@@ -1,7 +1,6 @@
 package fenixLlatzer.models;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -15,16 +14,23 @@ public class Informe {
 	private String observacions;
 	private LocalDate dataVisita;
 	
+	private Expedient agrupat;
+	private Patracol gestiona;
+	
+	
+	//repositori
 	private Map<String, ProvaSugerida> provaSugerida;
 	private Map<String, MedicamentRecomanat> medicamentRecomanat;
 
 	
 	
-	public Informe(String observacions) {
+	public Informe(String observacions, Expedient e, Patracol pac) {
 		super();
 		this.idInforme = String.valueOf(count.getAndIncrement());
 		this.observacions = observacions;
 		this.dataVisita = LocalDate.now();
+		this.agrupat = e;
+		this.gestiona = pac;
 		this.provaSugerida = new HashMap<String, ProvaSugerida>();
 		this.medicamentRecomanat = new HashMap<String, MedicamentRecomanat>();
 
