@@ -88,13 +88,13 @@ public class Controller {
 	}
 
 	//CU RealitzarProva
-	public void introdueixResultat(String TSI, String nomHospital, String idInforme, String nomProva, String resultat) {
+	public void introdueixResultat(String TSI, String nomHospital, String idInforme, String nomProva, String resultat) throws Exception {
 			
 		boolean b = nomHospital == null || nomHospital.isEmpty();
 				
 		ResultatProva r = hospitalDiferenciat.introdueixResultat(b, TSI, resultat, nomProva, idInforme);
 		
-		if(b) {
+		if(!b) {
 			Hospital h = repHospital.get(nomHospital);
 			h.introdueixResultat(TSI, idInforme, r, nomProva);
 		}

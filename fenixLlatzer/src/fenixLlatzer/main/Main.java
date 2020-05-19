@@ -168,13 +168,12 @@ public class Main {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(f, e.getMessage());
-			AltaPacient();
 		}
 	} 
 	
 	private void TancarExpedient() {
 		JFrame f = new JFrame();  
-		String idExpedient = JOptionPane.showInputDialog(f,"Introdueix el ID del Expedient", "TancarExpedient", 1);
+		String idExpedient = JOptionPane.showInputDialog(f,"Introdueix el ID del Expedient", "Tancar Expedient", 1);
 		try {
 			if (idExpedient != null && !idExpedient.isEmpty()) {
 				c.tancar(idExpedient);
@@ -182,7 +181,6 @@ public class Main {
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(f, e.getMessage());
-			TancarExpedient();
 		}
 	}
 	
@@ -201,23 +199,18 @@ public class Main {
 			"Introdueix el TSI del Pacient:",TSI,
 			"Introdueix el nom del Hospital (en cas de que l'Informe pertanyi a un altre):",nomHospital,
 			"Introdueix el id del Informe:",idInforme,
-			"Introdueix el nom de la prova",nomProva,
-			"Introdueix el resultat",resultat
+			"Introdueix el nom de la prova:",nomProva,
+			"Introdueix el resultat:",resultat
 			
 		};
 		JOptionPane.showConfirmDialog(f, inputObject, "Realitza Prova", JOptionPane.DEFAULT_OPTION);
 		try {
-			if(TSI.getText() != null && !TSI.getText().isEmpty() && idInforme != null && !idInforme.getText().isEmpty() 
-					&& nomProva != null && !nomProva.getText().isEmpty() 
-					&& resultat != null && !resultat.getText().isEmpty()) {
-				
-				c.introdueixResultat(TSI.getText(), nomHospital.getText(), idInforme.getText(), nomProva.getText(), resultat.getText());
-				JOptionPane.showConfirmDialog(f, "S'ha introduit el Resultat de la Prova amb éxit!", "Realitza Prova", JOptionPane.DEFAULT_OPTION , JOptionPane.PLAIN_MESSAGE);
-			}
+			c.introdueixResultat(TSI.getText(), nomHospital.getText(), idInforme.getText(), nomProva.getText(), resultat.getText());
+			JOptionPane.showConfirmDialog(f, "S'ha introduit el Resultat de la Prova amb éxit!", "Realitza Prova", JOptionPane.DEFAULT_OPTION , JOptionPane.PLAIN_MESSAGE);
+			
 		}
 		catch (Exception e) {
 			JOptionPane.showMessageDialog(f, e.getMessage());
-			RealitzaProva();
 		}
 	} 
 	
@@ -236,9 +229,9 @@ public class Main {
 		observacions.setRows(3);
 		
 		Object[] inputObject = {
-				"Introdueix el identficiador del Facultatiu:",idFacultatiu,
+				"Introdueix el identificador del Facultatiu:",idFacultatiu,
 				"Introdueix el TSI del Pacient:",TSI,
-				"Introdueix el identficiador del Expedient:",idExpedient,
+				"Introdueix el identificador del Expedient:",idExpedient,
 				"Introdueix la patologia del Expedient (en cas de que sigui un nou):",patologia,
 				"Introdueix les observacions del Informe:",observacions	
 			};
@@ -253,7 +246,7 @@ public class Main {
 			JTextField pauta = new JTextField();
 			
 			Object[] inputObjectMedicament = {
-					"Introdueix Nom Mediament:",nomMedicament,
+					"Introdueix Nom Medicament:",nomMedicament,
 					"Introdueix dosi:",dosi,
 					"Introdueix pauta:",pauta
 			};
@@ -263,6 +256,9 @@ public class Main {
 			while(n == 0) {
 				try {
 					c.nouMedicamentRecomanat(nomMedicament.getText(), dosi.getText(), pauta.getText());
+					nomMedicament.setText("");
+					dosi.setText("");
+					pauta.setText("");
 					n = JOptionPane.showOptionDialog(f, inputObjectMedicament, "Introduir Medicament", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsMedicament, optionsMedicament[0]);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(f, e.getMessage());
@@ -281,6 +277,7 @@ public class Main {
 			while(n == 0) {
 				try {
 					c.novaProvaSugerida(nomProva.getText());
+					nomProva.setText("");
 					n = JOptionPane.showOptionDialog(f, inputObjectProva, "Introduir Prova", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionsProva, optionsProva[0]);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(f, e.getMessage());
@@ -304,23 +301,38 @@ public class Main {
 		c.iniciAny();
 		
 		JFrame f = new JFrame();  
-		String nomHospital = JOptionPane.showInputDialog  (f,"Introdueix el nom del Hospital","Nou Any",1);
-		while(nomHospital != null && !nomHospital.isEmpty()) {
+		JTextField nomHospital = new JTextField();		
+		Object[] inputObjectHospital = {
+				"Introdueix Nom Hospital:",nomHospital,
+		};
+		
+		JTextField idFacultatiu = new JTextField();
+		Object[] inputObjectFacultatiu = {
+				"Introdueix ID Facultatiu:",idFacultatiu,
+		};
+
+		Object[] options = {"Següent", "Fi"};
+		
+		int n = JOptionPane.showOptionDialog(f, inputObjectHospital, "Actualitza Hospital", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+		while(n == 0 && nomHospital.getText() != null && !nomHospital.getText().isEmpty()) {
 			try {
-				c.actualitzaHospital(nomHospital);
-				String nomFacultatiu = JOptionPane.showInputDialog(f,"Introdueix el nom del Facultatiu", "Nou Any",1);
-				while(nomFacultatiu != null && !nomFacultatiu.isEmpty()) {
+				c.actualitzaHospital(nomHospital.getText());
+					
+				n = JOptionPane.showOptionDialog(f, inputObjectFacultatiu, "Actualitza Facultatiu", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+				while(n == 0 && idFacultatiu.getText() != null && !idFacultatiu.getText().isEmpty()) {
 					try {
-						c.actualitzaFacultatiu(nomFacultatiu);
+						c.actualitzaFacultatiu(idFacultatiu.getText());
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(f, e.getMessage());
 					}
-					nomFacultatiu = JOptionPane.showInputDialog(f,"Introdueix el nom del Facultatiu", "Nou Any",1);
+					idFacultatiu.setText("");
+					n = JOptionPane.showOptionDialog(f, inputObjectFacultatiu, "Actualitza Facultatiu", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 				}
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(f, e.getMessage());
 			}
-			nomHospital = JOptionPane.showInputDialog(f,"Introdueix el nom del Hospital", "Nou Any",1);
+			nomHospital.setText("");
+			n = JOptionPane.showOptionDialog(f, inputObjectHospital, "Actualitza Hospital", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 		}
 		c.fiAny();
 	} 

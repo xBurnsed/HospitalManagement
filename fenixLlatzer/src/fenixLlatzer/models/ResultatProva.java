@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ResultatProva {
 
 	//id
-	private static final AtomicInteger count = new AtomicInteger(0); 
+	private static final AtomicInteger count = new AtomicInteger(1); 
 	private String idProva;
 	
 	

@@ -78,15 +78,18 @@ public class Hospital {
 	}
 	
 		
-	public ResultatProva introdueixResultat(boolean b, String TSI, String resultat, String nomProva, String idInforme) {
-		
-		Patracol p1 = this.patracols.get(TSI);
-		ResultatProva r = p1.introdueixResultat(b, resultat, nomProva, idInforme);
-				
-		return r;
+	public ResultatProva introdueixResultat(boolean b, String TSI, String resultat, String nomProva, String idInforme) throws Exception {
+		if(patracols.containsKey(TSI)) {
+			Patracol p1 = this.patracols.get(TSI);
+			ResultatProva r = p1.introdueixResultat(b, resultat, nomProva, idInforme);
+			return r;
+		}
+		else {
+			throw new Exception("No existeix cap patracol amb aquest identificador en aquest hospital!");
+		}
 	}
 	
-	public void introdueixResultat(String TSI, String idInforme, ResultatProva r, String nomProva) {
+	public void introdueixResultat(String TSI, String idInforme, ResultatProva r, String nomProva) throws Exception {
 		Patracol p2 = this.patracols.get(TSI);
 		p2.introdueixResultat(idInforme, r, nomProva);
 		
@@ -111,7 +114,11 @@ public class Hospital {
 	}
 
 
-	public Informe iniciIntroduccioInforme(Facultatiu f, Pacient p, String idExpedient, String patologia, String observacions) {
+	public Informe iniciIntroduccioInforme(Facultatiu f, Pacient p, String idExpedient, String patologia, String observacions) throws Exception {
+		if(idExpedient == null || idExpedient.isEmpty()) {
+			throw new Exception("Introdueix un identificador d'Expedient vàlid!");
+		}
+		
 		Expedient e;
 		if(!pertany.containsKey(idExpedient)) {
 			e = new Expedient(idExpedient, patologia, f, p);
@@ -122,16 +129,18 @@ public class Hospital {
 			f.nombreExpedientsAnuals++;
 			p.nombreExpedientsAnual++;
 		}
-		
-		Patracol pat = patracols.get(p.getTSI());
-		Informe i = pat.iniciIntroduccioInforme(observacions);
-		p.nombreInformesAnual++;
-		p.mitjaInformes = p.nombreInformesAnual/p.nombreExpedientsAnual;
-		f.nombreInformesAnuals++;
-		f.mitjaInformes = f.nombreInformesAnuals/f.nombreExpedientsAnuals;
-		
-		return i;
-		
+		if(patracols.containsKey(p.getTSI())) {
+			Patracol pat = patracols.get(p.getTSI());
+			Informe i = pat.iniciIntroduccioInforme(observacions);
+			p.nombreInformesAnual++;
+			p.mitjaInformes = p.nombreInformesAnual/p.nombreExpedientsAnual;
+			f.nombreInformesAnuals++;
+			f.mitjaInformes = f.nombreInformesAnuals/f.nombreExpedientsAnuals;
+			return i;
+		}
+		else {
+			throw new Exception("No existeix cap patracol amb aquest identificador en aquest hospital!");
+		}		
 		
 	}
 

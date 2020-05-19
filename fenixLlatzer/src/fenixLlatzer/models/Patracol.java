@@ -35,21 +35,31 @@ public class Patracol {
 		return idPatracol;
 	}
 	
-	public ResultatProva introdueixResultat(boolean b, String resultat, String nomProva, String idInforme) {
+	public ResultatProva introdueixResultat(boolean b, String resultat, String nomProva, String idInforme) throws Exception {
 		ResultatProva r = new ResultatProva(resultat);
 		this.consulta.put(r.getIdProva(), r);
 		
-		if(!b) {
-			Informe i1 = gestiona.get(idInforme);
-			i1.introdueixResultat(r,nomProva);
+		if(b) {
+			if(gestiona.containsKey(idInforme)) {
+				Informe i1 = gestiona.get(idInforme);
+				i1.introdueixResultat(r,nomProva);
+			}
+			else {
+				throw new Exception ("No existeix cap informe amb aquest identficiador!");
+			}
 		}
 	
 		return r;	
 	}
 
-	public void introdueixResultat(String idInforme, ResultatProva r, String nomProva) {
-		Informe i = gestiona.get(idInforme);
-		i.introdueixResultat(r, nomProva);
+	public void introdueixResultat(String idInforme, ResultatProva r, String nomProva) throws Exception {
+		if(gestiona.containsKey(idInforme)) {
+			Informe i = gestiona.get(idInforme);
+			i.introdueixResultat(r, nomProva);
+		}
+		else {
+			throw new Exception ("No existeix cap informe amb aquest identficiador!");
+		}
 		
 		
 	}

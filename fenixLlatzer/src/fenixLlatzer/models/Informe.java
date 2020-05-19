@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Informe {
 
 	//id
-	private static final AtomicInteger count = new AtomicInteger(0); 
+	private static final AtomicInteger count = new AtomicInteger(1); 
 	private String idInforme;
 	
 	private String observacions;
@@ -36,21 +36,36 @@ public class Informe {
 	}
 
 
-	public void introdueixResultat(ResultatProva r, String nomProva) {
-		ProvaSugerida ps = provaSugerida.get(nomProva);
-		ps.introdueixResultat(r);
+	public void introdueixResultat(ResultatProva r, String nomProva) throws Exception {
+		if(provaSugerida.containsKey(nomProva)) {
+			ProvaSugerida ps = provaSugerida.get(nomProva);
+			ps.introdueixResultat(r);
+		}
+		else {
+			throw new Exception ("No existeix cap prova sugerida amb aquest identificador!");
+		}
 	}
 
 
-	public void nouMedicamentRecomanat(Medicament m, String dosi, String pauta) {
-		MedicamentRecomanat mr = new MedicamentRecomanat(m, dosi, pauta);
-		medicamentRecomanat.put(m.getNomMedicament(), mr);
+	public void nouMedicamentRecomanat(Medicament m, String dosi, String pauta) throws Exception {
+		if(!medicamentRecomanat.containsKey(m.getNomMedicament())) {
+			MedicamentRecomanat mr = new MedicamentRecomanat(m, dosi, pauta);
+			medicamentRecomanat.put(m.getNomMedicament(), mr);
+		}
+		else {
+			throw new Exception("Ja existeix un medicament recomanat amb aquest identificador!");
+		}
 	}
 
 
-	public void novaProvaSugerida(ProvaDiagnostica pd) {
-		ProvaSugerida ps = new ProvaSugerida(pd);
-		provaSugerida.put(pd.getNomProva(), ps);
+	public void novaProvaSugerida(ProvaDiagnostica pd) throws Exception {
+		if(!provaSugerida.containsKey(pd.getNomProva())) {
+			ProvaSugerida ps = new ProvaSugerida(pd);
+			provaSugerida.put(pd.getNomProva(), ps);
+		}
+		else {
+			throw new Exception("Ja existeix una prova sugerida amb aquest identificador!");
+		}
 	}
 		
 	
